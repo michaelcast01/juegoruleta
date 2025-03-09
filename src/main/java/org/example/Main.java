@@ -8,16 +8,20 @@ public class Main {
         System.out.println("Ingrese el número de jugadores (2-6):");
 
         int cantJugadores = 0;
-        while (cantJugadores < 2 || cantJugadores > 6) {
-            try {
-                cantJugadores = Integer.parseInt(scanner.nextLine());
-                if (cantJugadores < 2 || cantJugadores > 6) {
+        while (true) {
+            if (scanner.hasNextInt()) {
+                cantJugadores = scanner.nextInt();
+                if (cantJugadores >= 2 && cantJugadores <= 6) {
+                    break;
+                } else {
                     System.out.println("El número de jugadores debe estar entre 2 y 6. Inténtelo nuevamente:");
                 }
-            } catch (NumberFormatException e) {
+            } else {
                 System.out.println("Ingrese un número válido:");
             }
+            scanner.nextLine();
         }
+        scanner.nextLine();
 
         String[] nombresJugadores = new String[cantJugadores];
         for (int i = 0; i < cantJugadores; i++) {
@@ -38,15 +42,14 @@ public class Main {
             System.out.println("La recámara se encuentra en la posición: " + ruleta.getPosicionActual());
 
             if (ruleta.disparar()) {
-                System.out.println("¡BANG! " + nombresJugadores[turnoActual] + " Muerto.");
+                System.out.println("¡BANG! " + nombresJugadores[turnoActual] + " Ha muerto.");
                 break;
             } else {
                 System.out.println("Click. " + nombresJugadores[turnoActual] + " sobrevive.");
-                System.out.println("La recámara avanza a: " + ruleta.getPosicionActual());
+                System.out.println("La recámara se mueve a: " + ruleta.getPosicionActual());
                 turnoActual = (turnoActual + 1) % cantJugadores;
             }
         }
-
         System.out.println("\nFinished.");
         scanner.close();
     }
